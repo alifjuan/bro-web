@@ -133,6 +133,128 @@ body {
 
 footer { background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(20px); }
 
+/* 🔥 PESAN ANONIM STYLES */
+.anonim-section {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
+    margin: 3rem 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+
+.anonim-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.anonim-messages {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1.5rem;
+}
+
+.message-item {
+    background: rgba(255,255,255,0.8);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #4ecdc4;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.message-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.message-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.message-time {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0;
+}
+
+.message-item:hover .delete-btn { opacity: 1; }
+
+.delete-btn:hover {
+    background: #ff4757;
+    transform: scale(1.1);
+}
+
+.anonim-form {
+    padding: 2rem 1.5rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.form-control {
+    border-radius: 15px;
+    border: 2px solid rgba(0,0,0,0.1);
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: rgba(255,255,255,0.9);
+}
+
+.form-control:focus {
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 0.2rem rgba(78,205,196,0.25);
+}
+
+.btn-send {
+    background: linear-gradient(135deg, #4ecdc4, #44bdad);
+    border: none;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-send:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(78,205,196,0.4);
+}
+
+/* Custom scrollbar */
+.anonim-messages::-webkit-scrollbar {
+    width: 8px;
+}
+.anonim-messages::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+.anonim-messages::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+}
+
 /* 🔥 MOBILE RESPONSIVE - FULL IMAGE DI HP JUGA! */
 @media (max-width: 768px) {
     .carousel-item img { 
@@ -144,6 +266,7 @@ footer { background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(20px); }
         object-fit: contain !important; 
     }
     body { margin-top: 70px; }
+    .anonim-messages { max-height: 300px; }
 }
 </style>
 </head>
@@ -272,6 +395,44 @@ footer { background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(20px); }
 </div>
 </div>
 </div>
+
+<!-- 🔥 PESAN ANONIM - BARU DITAMBAHKAN -->
+<div class="container mb-5 fade-in-up">
+<div class="anonim-section">
+    <div class="anonim-header">
+        <h2><i class="fas fa-comments"></i> Pesan Anonim</h2>
+        <p class="mb-0">Bagikan pikiranmu, semua orang bisa melihat!</p>
+    </div>
+    
+    <div class="anonim-messages" id="anonimMessages">
+        <!-- Pesan akan muncul di sini -->
+        <div class="message-item">
+            <div class="message-text">Selamat pagi TKJ 1! Semangat belajar hari ini! 🔥</div>
+            <div class="message-time">2 menit yang lalu</div>
+            <button class="delete-btn" onclick="deleteMessage(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="message-item">
+            <div class="message-text">Website keren banget! Good job tim developer! 👏</div>
+            <div class="message-time">5 menit yang lalu</div>
+            <button class="delete-btn" onclick="deleteMessage(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="message-item">
+            <div class="message-text">Siapa yang mau buka puasa bareng? 😋</div>
+            <div class="message-time">10 menit yang lalu</div>
+            <button class="delete-btn" onclick="deleteMessage(this)"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+    
+    <div class="anonim-form">
+        <div class="mb-3">
+            <input type="text" class="form-control" id="anonimInput" placeholder="Tulis pesan anonim kamu disini..." maxlength="200">
+            <div class="form-text">Pesanmu akan terlihat oleh semua orang (max 200 karakter)</div>
+        </div>
+        <button class="btn btn-send" onclick="sendAnonimMessage()">
+            <i class="fas fa-paper-plane"></i> Kirim Pesan
+        </button>
+    </div>
+</div>
 </div>
 
 <!-- Footer -->
@@ -349,6 +510,143 @@ document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
 
 document.querySelectorAll('.typing').forEach((el, index) => {
     setTimeout(() => el.classList.add('typing'), index * 1000);
+});
+
+// 🔥 PESAN ANONIM FUNCTIONALITY - FIXED TIME
+let messageId = 4;
+let messagesData = []; // Simpan data pesan dengan timestamp
+
+function formatTimeAgo(timestamp) {
+    const now = new Date().getTime();
+    const diff = now - timestamp;
+    const minutes = Math.floor(diff / 60000);
+    
+    if (minutes < 1) return 'Baru saja';
+    if (minutes < 60) return `${minutes} menit yang lalu`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} jam yang lalu`;
+    const days = Math.floor(hours / 24);
+    return `${days} hari yang lalu`;
+}
+
+function getCurrentTimestamp() {
+    return new Date().getTime();
+}
+
+function updateAllMessageTimes() {
+    // Update semua waktu pesan secara real-time
+    document.querySelectorAll('.message-time').forEach(timeEl => {
+        const messageId = parseInt(timeEl.dataset.messageId);
+        const message = messagesData.find(m => m.id === messageId);
+        if (message) {
+            timeEl.textContent = formatTimeAgo(message.timestamp);
+        }
+    });
+}
+
+function sendAnonimMessage() {
+    const input = document.getElementById('anonimInput');
+    const text = input.value.trim();
+    
+    if (text === '' || text.length > 200) {
+        alert('Pesan tidak boleh kosong dan maksimal 200 karakter!');
+        return;
+    }
+    
+    const timestamp = getCurrentTimestamp();
+    const newMessageData = {
+        id: messageId,
+        text: text,
+        timestamp: timestamp
+    };
+    
+    messagesData.unshift(newMessageData); // Tambah ke depan (paling baru)
+    
+    // Buat pesan baru
+    const messagesContainer = document.getElementById('anonimMessages');
+    const newMessage = document.createElement('div');
+    newMessage.className = 'message-item fade-in-up';
+    newMessage.dataset.messageId = messageId;
+    newMessage.innerHTML = `
+        <div class="message-text">${text}</div>
+        <div class="message-time" data-message-id="${messageId}">${formatTimeAgo(timestamp)}</div>
+        <button class="delete-btn" onclick="deleteMessage(${messageId})"><i class="fas fa-trash"></i></button>
+    `;
+    
+    // Tambahkan ke atas
+    messagesContainer.insertBefore(newMessage, messagesContainer.firstChild);
+    
+    // Reset input
+    input.value = '';
+    
+    // Scroll ke atas
+    messagesContainer.scrollTop = 0;
+    
+    // Animasi
+    setTimeout(() => newMessage.classList.add('visible'), 100);
+    
+    messageId++;
+    
+    // Update waktu setiap 30 detik
+    setTimeout(updateAllMessageTimes, 30000);
+}
+
+function deleteMessage(messageIdToDelete) {
+    // Hapus dari array data
+    messagesData = messagesData.filter(m => m.id !== messageIdToDelete);
+    
+    // Hapus dari DOM
+    const message = document.querySelector(`[data-message-id="${messageIdToDelete}"]`)?.closest('.message-item');
+    if (message) {
+        message.style.transform = 'translateX(-100%)';
+        message.style.opacity = '0';
+        setTimeout(() => message.remove(), 300);
+    }
+}
+
+// Update waktu secara berkala (setiap 30 detik)
+setInterval(updateAllMessageTimes, 30000);
+
+// Enter key support
+document.getElementById('anonimInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendAnonimMessage();
+    }
+});
+
+// Fix sample messages juga
+document.addEventListener('DOMContentLoaded', function() {
+    // Update sample messages dengan timestamp real
+    const sampleTimestamps = [
+        getCurrentTimestamp() - 2 * 60000,  // 2 menit lalu
+        getCurrentTimestamp() - 5 * 60000,  // 5 menit lalu  
+        getCurrentTimestamp() - 10 * 60000  // 10 menit lalu
+    ];
+    
+    const sampleMessages = document.querySelectorAll('.message-item');
+    sampleMessages.forEach((msg, index) => {
+        const timeEl = msg.querySelector('.message-time');
+        if (timeEl && sampleTimestamps[index]) {
+            const msgId = 1 + index;
+            timeEl.dataset.messageId = msgId;
+            timeEl.textContent = formatTimeAgo(sampleTimestamps[index]);
+            msg.dataset.messageId = msgId;
+            msg.querySelector('.delete-btn').onclick = () => deleteMessage(msgId);
+            
+            messagesData.push({
+                id: msgId,
+                text: timeEl.previousElementSibling.textContent,
+                timestamp: sampleTimestamps[index]
+            });
+        }
+    });
+    
+    // Auto scroll ke section anonim
+    setTimeout(() => {
+        document.querySelector('.anonim-section').scrollIntoView({ 
+            behavior: 'smooth', block: 'start' 
+        });
+    }, 2000);
 });
 </script>
 </body>
